@@ -52,7 +52,7 @@ const Features = () => {
               key={feature.id}
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50, y: 50 }}
               whileInView={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.5, delay: feature.id * 0.2 }}
+              transition={{ duration: 0.1, delay: feature.id * 0.2 }}
               className={`relative p-12  rounded-2xl bg-n-8/90 backdrop-blur-sm border border-n-6 hover:border-n-5 transition-colors w-full md:w-2/3 lg:w-1/2 
                 ${index % 2 === 0 ? "self-start" : "self-end"}`}
               style={{

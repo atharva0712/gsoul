@@ -1,8 +1,9 @@
 import ButtonGradient from "./assets/svg/ButtonGradient";
-import Button from "./components/Button";
 import Header from "./components/Header";
 import Features from "./components/Features";
 import Hero from "./components/Hero";
+import HowToUse from "./components/HowToUse";
+import ScheduleForm from "./components/ScheduleForm";
 const App = () => {
   return (
     <>
@@ -10,6 +11,8 @@ const App = () => {
         <Header />
         <Hero />
         <Features />
+        <HowToUse />
+        <ScheduleForm />
       </div>
       <ButtonGradient />
     </>
