@@ -162,10 +162,6 @@ const HowToUse = () => {
           <a href="#signup" className="inline-block">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-              <button className="relative px-10 py-5 bg-n-8 rounded-full leading-none flex items-center divide-x divide-gray-600">
-                <span className="pr-6 text-gray-100 text-lg font-semibold">Get Started Now</span>
-                <span className="pl-6 text-indigo-400 group-hover:text-gray-100 transition duration-200">➔</span>
-              </button>
             </div>
           </a>
         </motion.div>
