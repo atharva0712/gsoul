@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { signUp, signIn } from "../authService";
+import { signUp, signIn } from "../services/authService";
 
 const AuthForm = ({ isLogin: initialIsLogin = true ,onSuccess}) => {
   const [email, setEmail] = useState("");

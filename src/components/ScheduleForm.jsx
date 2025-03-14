@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { generateSchedule } from "../services/llm";
+import ScheduleResult from "./ScheduleResult";
 import { motion } from "framer-motion";
+import { auth } from "../services/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const ScheduleForm = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +17,34 @@ const ScheduleForm = () => {
     daysOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     constraints: "",
   });
+  const [schedule, setSchedule] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="text-center py-24">
+        <h2 className="text-4xl font-bold text-n-1 mb-4">Get Started</h2>
+        <p className="text-n-2 mb-8">Login or signup to create your perfect schedule</p>
+        <div className="flex gap-4 justify-center">
+          <button 
+            className="button text-n-1 hover:text-color-1"
+            onClick={() => window.scrollTo({ top: 0 })}
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    );
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -34,10 +65,17 @@ const ScheduleForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Here you would send the data to your backend/LLM
+    setIsLoading(true);
+    try {
+      const response = await generateSchedule(formData);
+      setSchedule(response);
+    } catch (error) {
+      console.error("Failed to generate schedule:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const daysOfWeek = [
@@ -267,8 +305,8 @@ const ScheduleForm = () => {
           </div>
         </motion.div>
       </div>
+      <ScheduleResult schedule={schedule} isLoading={isLoading} />
     </section>
   );
 };
-
 export default ScheduleForm;

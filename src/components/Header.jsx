@@ -6,8 +6,8 @@ import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import AuthForm from "./AuthForm";
-import { auth } from "../firebase";
-import { logout } from "../authService";
+import { auth } from "../services/firebase";
+import { logout } from "../services/authService";
 import { onAuthStateChanged } from "firebase/auth";
 import Notification from './Notification';
 
