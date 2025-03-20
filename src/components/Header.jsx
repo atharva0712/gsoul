@@ -126,30 +126,32 @@ const Header = () => {
             <HamburgerMenu />
           </nav>
 
-          {isAuthenticated ? (
-            <Button 
-              className="hidden lg:flex"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          ) : (
-            <>
-              <button
-                className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
-                onClick={() => handleAuthClick(false)}
-              >
-                New account
-              </button>
-
+          {/* Auth buttons container with fixed width */}
+          <div className="hidden lg:flex items-center justify-end min-w-[200px]">
+            {isAuthenticated ? (
               <Button 
-                className="hidden lg:flex"
-                onClick={() => handleAuthClick(true)}
+                className="ml-auto"
+                onClick={handleLogout}
               >
-                Sign in
+                Logout
               </Button>
-            </>
-          )}
+            ) : (
+              <>
+                <button
+                  className="button text-n-1/50 transition-colors hover:text-n-1 mr-8"
+                  onClick={() => handleAuthClick(false)}
+                >
+                  New account
+                </button>
+
+                <Button 
+                  onClick={() => handleAuthClick(true)}
+                >
+                  Sign in
+                </Button>
+              </>
+            )}
+          </div>
 
           <Button
             className="ml-auto lg:hidden"
