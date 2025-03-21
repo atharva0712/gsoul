@@ -100,7 +100,6 @@ const ScheduleForm = () => {
             {/* Decorative elements */}
             <div className="absolute -top-10 -left-20 w-40 h-40 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
             <div className="absolute -bottom-10 -right-20 w-40 h-40 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl"></div>
-            
             {/* Form card */}
             <div className="relative backdrop-blur-sm border border-n-6 rounded-3xl p-8 md:p-10 bg-n-8/90 shadow-xl">
               <form onSubmit={handleSubmit} className="space-y-8">
@@ -109,7 +108,7 @@ const ScheduleForm = () => {
                 <DaysOfWeekSection formData={formData} handleCheckboxChange={handleCheckboxChange} />
                 <PriorityTasksSection formData={formData} handleChange={handleChange} />
                 <ConstraintsSection formData={formData} handleChange={handleChange} />
-                <SubmitButton />
+                <SubmitButton isGenerating={isLoading} />
               </form>
             </div>
           </div>

@@ -1,7 +1,6 @@
 import { db } from './firebase';
-import { collection, addDoc, getDocs, query, where, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, Timestamp } from 'firebase/firestore';
 
-// Save a new schedule to Firestore
 export const saveSchedule = async (userId, scheduleData) => {
   try {
     const scheduleRef = await addDoc(collection(db, "schedules"), {
@@ -16,13 +15,11 @@ export const saveSchedule = async (userId, scheduleData) => {
   }
 };
 
-// Get all schedules for a specific user
 export const getUserSchedules = async (userId) => {
   try {
     const schedulesQuery = query(
       collection(db, "schedules"),
-      where("userId", "==", userId),
-      orderBy("createdAt", "desc")
+      where("userId", "==", userId)
     );
     
     const querySnapshot = await getDocs(schedulesQuery);
@@ -35,6 +32,8 @@ export const getUserSchedules = async (userId) => {
         createdAt: doc.data().createdAt.toDate()
       });
     });
+    
+    schedules.sort((a, b) => b.createdAt - a.createdAt);
     
     return schedules;
   } catch (error) {

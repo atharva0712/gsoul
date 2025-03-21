@@ -1,5 +1,4 @@
 import { navigation } from "../constants";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
@@ -10,15 +9,15 @@ import { auth } from "../services/firebase";
 import { logout } from "../services/authService";
 import { onAuthStateChanged } from "firebase/auth";
 import Notification from './Notification';
+import PreviousSchedules from "./PreviousSchedules";
 
 const Header = () => {
-  const { hash } = useLocation();
-  const navigate = useNavigate();
   const [openNavigation, setOpenNavigation] = useState(true);
   const [showAuth, setShowAuth] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  const [showPreviousSchedules, setShowPreviousSchedules] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,7 +39,6 @@ const Header = () => {
       setTimeout(() => {
         setNotification({ show: false, message: '', type: '' });
       }, 3000);
-      navigate('/');
     } catch (error) {
       setNotification({
         show: true,
@@ -83,7 +81,6 @@ const Header = () => {
     setTimeout(() => {
       setNotification({ show: false, message: '', type: '' });
     }, 3000);
-    navigate('/dashboard');
   };
 
   return (
@@ -94,7 +91,7 @@ const Header = () => {
         }`}
       >
         <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
-          <a className="block w-[12rem] xl:mr-8" href="/pricing">
+          <a className="block w-[12rem] xl:mr-8" href="#hero">
             <span className="text-4xl font-bold bg-gradient-to-r from-gray-700 via-pink-500 to-red-500 bg-clip-text text-transparent">
               Gsoul
             </span>
@@ -114,7 +111,7 @@ const Header = () => {
                   className={`block relative font-code text-2xl uppercase transition-colors lg:text-base ${
                     item.onlyMobile ? "lg:hidden" : ""
                   } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                    item.url === hash
+                    item.url === location.hash
                       ? "z-2 lg:text-blue-400"
                       : "text-n-1/50 lg:text-n-1/50"
                   } lg:leading-5 lg:hover:text-blue-200 xl:px-12`}
@@ -127,14 +124,22 @@ const Header = () => {
           </nav>
 
           {/* Auth buttons container with fixed width */}
-          <div className="hidden lg:flex items-center justify-end min-w-[200px]">
+          <div className="hidden lg:flex items-center justify-end min-w-[300px]">
             {isAuthenticated ? (
-              <Button 
-                className="ml-auto"
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
+              <>
+                <Button 
+                  className="mr-4"
+                  onClick={() => setShowPreviousSchedules(true)}
+                >
+                  Previous
+                  Schedules
+                </Button>
+                <Button 
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
             ) : (
               <>
                 <button
@@ -182,6 +187,11 @@ const Header = () => {
           </div>
         </div>
       )}
+
+      <PreviousSchedules 
+        isOpen={showPreviousSchedules} 
+        onClose={() => setShowPreviousSchedules(false)}
+      />
 
       {notification.show && (
         <Notification
